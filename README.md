@@ -1,16 +1,17 @@
-# Bremer Community Spiel
+# Vollbild-Rätselspiel
 
-## Beschreibung
+Ein interaktives Vollbild-Rätselspiel mit fünf Levels, erstellt mit HTML, CSS und JavaScript. Das Spiel enthält verschiedene Rätsel, die in jedem Level gelöst werden müssen, um weiterzukommen. Jedes Level hat eine Zeitbegrenzung von 6 Minuten.
 
-Das **Bremer Community Spiel** ist ein Canvas-basiertes Spiel, das auf einer Webseite läuft und von der Community gemeinsam entwickelt werden kann. Die erste Version des Spiels enthält ein einfaches Level-System, NPCs und ein grundlegendes Punktesystem.
+## Features
 
-## Funktionen
+- **Fünf Levels**: Jedes Level bietet ein einzigartiges Rätsel.
+- **Timer**: Jeder Level hat eine 6-minütige Zeitbegrenzung.
+- **Vollbild**: Das Spiel wird im Vollbildmodus angezeigt, um ein immersives Erlebnis zu bieten.
+- **Responsive Design**: Das Layout ist an verschiedene Bildschirmgrößen angepasst.
 
-- **Vollbild-Canvas**: Das Spiel läuft auf einem Canvas, das die gesamte Seite ausfüllt.
-- **Erweiterte Umgebung**: Ein größeres Spielfeld mit verschiedenen Bereichen.
-- **NPCs und Aufgaben**: Zwei NPCs mit spezifischen Aufgaben und Informationen.
-- **Dialogsystem**: Aufgaben und Informationen von NPCs werden in einer Dialogbox angezeigt.
-- **Inventarsystem**: Spieler können Gegenstände sammeln und im Inventar anzeigen lassen.
-- **Minimap**: Eine kleine Karte zeigt den Fortschritt und wichtige Orte.
-- **Hintergrundmusik**: Eine Hintergrundmusik wird während des Spiels abgespielt.
-- **Level-System**: Spieler können Punkte sammeln und durch das Erledigen von Aufgaben Level aufsteigen.
+## Installation
+
+1. **Clone das Repository**
+
+   ```bash
+   git clone https://github.com/bc24/BC-Spiel.git
