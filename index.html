@@ -5,27 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bremer Community Spiel</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        #name-entry-screen, #game-container { display: none; }
-        #game-container { display: flex; flex-direction: column; align-items: center; }
-        .hidden { display: none; }
-        #highscore-list { margin-top: 20px; }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        #name-entry-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #fff;
+        }
+        #game-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        input[type="text"] {
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #highscore-list {
+            margin-top: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div id="name-entry-screen">
         <h1>Bremer Community Spiel</h1>
         <p>Entwickelt von Frank Panzer</p>
-        <input type="text" id="player-name" placeholder="Gib deinen Namen ein">
+        <input type="text" id="player-name" placeholder="Name eingeben">
         <button id="submit-name-btn">Starten</button>
+        <div id="highscore-list">
+            <h2>Highscores</h2>
+            <!-- Highscores werden hier angezeigt -->
+        </div>
     </div>
 
     <div id="game-container">
         <h2 id="level-title"></h2>
         <div id="puzzle"></div>
-        <div id="timer">360</div>
-        <button id="next-level-btn" class="hidden">Nächstes Level</button>
-        <div id="highscore-list"></div>
+        <div id="timer">10</div>
+        <button id="submit-answer-btn">Antwort &uuml;berpr&uuml;fen</button>
+        <button id="next-level-btn" class="hidden">N&auml;chstes Level</button>
     </div>
 
     <script src="script.js"></script>
