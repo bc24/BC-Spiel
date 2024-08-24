@@ -112,19 +112,7 @@ function drawMinimap() {
     minimapCtx.fillRect(0, 0, minimap.width, minimap.height);
 
     // Zeichne eine kleine Darstellung des Spielbereichs
-    minimapCtx.fillStyle = 'blueHier ist die Fortsetzung des Codes für `js/game.js` sowie eine `README.md`-Datei für Git:
-
-#### **3. JavaScript (Fortsetzung für js/game.js)**
-
-```javascript
-// Zeichne eine kleine Darstellung des Spielbereichs
-function drawMinimap() {
-    minimapCtx.clearRect(0, 0, minimap.width, minimap.height); // Minimap leeren
-    minimapCtx.fillStyle = 'lightblue';
-    minimapCtx.fillRect(0, 0, minimap.width, minimap.height);
-
-    // Zeichne den Spieler auf der Minimap
-    minimapCtx.fillStyle = 'red';
+    minimapCtx.fillStyle = 'blue';
     minimapCtx.fillRect(
         (player.x / canvas.width) * minimap.width,
         (player.y / canvas.height) * minimap.height,
