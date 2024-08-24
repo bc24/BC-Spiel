@@ -20,16 +20,19 @@ function startGame() {
 
 // Spieler Objekt
 const player = {
-    x: canvas.width / 2,
-    y: canvas.height / 2,
+    x: canvas.width / 2 - 25,
+    y: canvas.height - 60,
     width: 50,
     height: 50,
-    color: 'blue',
+    color: 'red', // Roter Kreis für den Spieler
     speed: 5,
     direction: '',
     draw: function() {
+        ctx.beginPath();
+        ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2);
         ctx.fillStyle = this.color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.fill();
+        ctx.closePath();
     },
     move: function() {
         if (this.direction === 'up') this.y = Math.max(10, this.y - this.speed);
@@ -42,8 +45,8 @@ const player = {
 // NPCs Liste mit Bildern, Aufgaben und Informationen
 const npcs = [
     { 
-        x: 100, 
-        y: 100, 
+        x: 10, 
+        y: 10, 
         width: 50, 
         height: 50, 
         imgSrc: 'img/npc1.png', 
@@ -51,8 +54,8 @@ const npcs = [
         info: 'Ich bin der Schmied des Dorfes.' 
     },
     { 
-        x: 300, 
-        y: 200, 
+        x: canvas.width - 60, 
+        y: 10, 
         width: 50, 
         height: 50, 
         imgSrc: 'img/npc2.png', 
@@ -68,16 +71,11 @@ npcs.forEach(npc => {
     npc.img = img;
 });
 
-// Zeichnen der NPCs mit Aufgaben und Informationen
+// Zeichnen der NPCs
 function drawNPCs() {
     npcs.forEach(npc => {
         ctx.drawImage(npc.img, npc.x, npc.y, npc.width, npc.height);
-
-        // Text über dem NPC anzeigen (Aufgabe und Info)
-        ctx.fillStyle = 'black';
-        ctx.font = '16px Arial';
-        ctx.fillText(npc.task, npc.x, npc.y - 10);
-        ctx.fillText(npc.info, npc.x, npc.y - 30);
+        // Keine Texte über den NPCs anzeigen
     });
 }
 
@@ -103,13 +101,41 @@ function showDialog(npc) {
     dialogBox.innerHTML = `<h2>${npc.task}</h2><p>${npc.info}</p>`;
 }
 
+// Funktion zum Zeichnen der Minimap
+function drawMinimap() {
+    minimapCtx.clearRect(0, 0, minimap.width, minimap.height); // Minimap leeren
+    minimapCtx.fillStyle = 'lightblue';
+    minimapCtx.fillRect(0, 0, minimap.width, minimap.height);
+
+    // Zeichne eine kleine Darstellung des Spielbereichs
+    minimapCtx.fillStyle = 'blue';
+    minimapCtx.fillRect(player.x / canvas.width * minimap.width, player.y / canvas.height * minimap.height, player.width / canvas.width * minimap.width, player.height / canvas.height * minimap.height);
+}
+
+// Funktion zum Hinzufügen eines Gegenstands zum Inventar
+function addToInventory(item) {
+    inventory.push(item);
+    updateInventoryDisplay();
+}
+
+// Funktion zur Aktualisierung der Inventaranzeige
+function updateInventoryDisplay() {
+    inventoryList.innerHTML = '';
+    inventory.forEach(item => {
+        const listItem = document.createElement('li');
+        listItem.textContent = item;
+        inventoryList.appendChild(listItem);
+    });
+}
+
 // Spiel Schleife
 function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Canvas löschen
     player.move();
     player.draw();
     drawNPCs();
-    checkInteraction(); // Überprüfe, ob der Spieler mit einem NPC interagiert
+    checkInteraction();
+    drawMinimap(); // Minimap zeichnen
 
     requestAnimationFrame(gameLoop);
 }
