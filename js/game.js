@@ -5,6 +5,8 @@ const ctx = canvas.getContext('2d');
 // Startbildschirm und Spiel starten
 const startScreen = document.getElementById('start-screen');
 const dialogBox = document.getElementById('dialog-box');
+const backgroundMusic = document.getElementById('backgroundMusic');
+
 startScreen.addEventListener('click', startGame);
 
 function startGame() {
@@ -12,6 +14,7 @@ function startGame() {
     canvas.style.display = 'block'; // Canvas sichtbar machen
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    backgroundMusic.play(); // Hintergrundmusik starten
     gameLoop(); // Spiel Schleife starten
 }
 
@@ -78,6 +81,28 @@ function drawNPCs() {
     });
 }
 
+// Funktion zum Überprüfen von Kollisionen zwischen Spieler und NPCs
+function checkInteraction() {
+    let interacting = false;
+    npcs.forEach(npc => {
+        if (player.x < npc.x + npc.width &&
+            player.x + player.width > npc.x &&
+            player.y < npc.y + npc.height &&
+            player.y + player.height > npc.y) {
+            showDialog(npc);
+            interacting = true;
+        }
+    });
+    if (!interacting) {
+        dialogBox.style.display = 'none';
+    }
+}
+
+function showDialog(npc) {
+    dialogBox.style.display = 'block';
+    dialogBox.innerHTML = `<h2>${npc.task}</h2><p>${npc.info}</p>`;
+}
+
 // Spiel Schleife
 function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Canvas löschen
@@ -87,24 +112,6 @@ function gameLoop() {
     checkInteraction(); // Überprüfe, ob der Spieler mit einem NPC interagiert
 
     requestAnimationFrame(gameLoop);
-}
-
-// Funktion zum Überprüfen von Kollisionen zwischen Spieler und NPCs
-function checkInteraction() {
-    let interacting = false;
-    npcs.forEach(npc => {
-        if (player.x < npc.x + npc.width &&
-            player.x + player.width > npc.x &&
-            player.y < npc.y + npc.height &&
-            player.y + player.height > npc.y) {
-            dialogBox.style.display = 'block';
-            dialogBox.innerText = npc.task;
-            interacting = true;
-        }
-    });
-    if (!interacting) {
-        dialogBox.style.display = 'none';
-    }
 }
 
 // Spielersteuerung
