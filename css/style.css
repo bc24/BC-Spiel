@@ -5,6 +5,8 @@
     position: absolute;
     top: 0;
     left: 0;
+    width: 100vw; /* 100% der Viewport-Breite */
+    height: 100vh; /* 100% der Viewport-Höhe */
 }
 
 /* Stile für den Startbildschirm */

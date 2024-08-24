@@ -35,10 +35,10 @@ const player = {
         ctx.closePath();
     },
     move: function() {
-        if (this.direction === 'up') this.y = Math.max(10, this.y - this.speed);
-        if (this.direction === 'down') this.y = Math.min(canvas.height - this.height - 10, this.y + this.speed);
-        if (this.direction === 'left') this.x = Math.max(10, this.x - this.speed);
-        if (this.direction === 'right') this.x = Math.min(canvas.width - this.width - 10, this.x + this.speed);
+        if (this.direction === 'up') this.y = Math.max(0, this.y - this.speed);
+        if (this.direction === 'down') this.y = Math.min(canvas.height - this.height, this.y + this.speed);
+        if (this.direction === 'left') this.x = Math.max(0, this.x - this.speed);
+        if (this.direction === 'right') this.x = Math.min(canvas.width - this.width, this.x + this.speed);
     }
 };
 
