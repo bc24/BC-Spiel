@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     const nameEntryScreen = document.getElementById('name-entry-screen');
-    const startScreen = document.getElementById('start-screen');
     const gameContainer = document.getElementById('game-container');
     const displayName = document.getElementById('display-name');
     const playerNameInput = document.getElementById('player-name');
@@ -9,9 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const timerElement = document.getElementById('time');
     const puzzleElement = document.getElementById('puzzle');
     const nextLevelBtn = document.getElementById('next-level-btn');
-    const chatBox = document.getElementById('chat-box');
-    const chatInput = document.getElementById('chat-input');
-    const sendBtn = document.getElementById('send-btn');
     const highscoreList = document.getElementById('highscore-list');
 
     let currentLevel = 1;
@@ -19,28 +15,20 @@ document.addEventListener('DOMContentLoaded', () => {
     let timeLeft = 360;
     let score = 0;
     let playerName = '';
-    let chatMessages = JSON.parse(localStorage.getItem('chatMessages')) || [];
     let highScores = JSON.parse(localStorage.getItem('highScores')) || [];
 
-    // Initialisiere Chat und Highscores
-    updateChatBox();
+    // Highscores aktualisieren
     updateHighscores();
 
     submitNameBtn.addEventListener('click', () => {
         playerName = playerNameInput.value.trim();
         if (playerName) {
-            displayName.textContent = playerName;
             nameEntryScreen.style.display = 'none';
-            startScreen.style.display = 'flex';
+            gameContainer.style.display = 'flex';
+            startLevel(currentLevel);
         } else {
             alert('Bitte gib deinen Namen ein!');
         }
-    });
-
-    document.getElementById('start-btn').addEventListener('click', () => {
-        startScreen.style.display = 'none';
-        gameContainer.style.display = 'grid';
-        startLevel(currentLevel);
     });
 
     function startLevel(level) {
@@ -121,35 +109,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function updateChatBox() {
-        chatBox.value = chatMessages.join('\n');
-    }
-
-    sendBtn.addEventListener('click', () => {
-        const message = chatInput.value.trim();
-        if (message) {
-            const formattedMessage = `${playerName}: ${message}`;
-            chatMessages.push(formattedMessage);
-            chatInput.value = '';
-            localStorage.setItem('chatMessages', JSON.stringify(chatMessages));
-            updateChatBox();
-            saveChatToFile();
-        }
-    });
-
     function saveHighscoresToFile() {
         fetch('save_highscores.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(highScores)
-        });
-    }
-
-    function saveChatToFile() {
-        fetch('save_chat.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(chatMessages)
         });
     }
 });
