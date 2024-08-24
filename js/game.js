@@ -6,8 +6,10 @@ const ctx = canvas.getContext('2d');
 const startScreen = document.getElementById('start-screen');
 const dialogBox = document.getElementById('dialog-box');
 const backgroundMusic = document.getElementById('backgroundMusic');
-
-startScreen.addEventListener('click', startGame);
+const minimap = document.getElementById('minimap');
+const minimapCtx = minimap.getContext('2d');
+const inventory = [];
+const inventoryList = document.getElementById('inventory-list');
 
 function startGame() {
     startScreen.style.display = 'none'; // Startbildschirm ausblenden
@@ -45,22 +47,24 @@ const player = {
 // NPCs Liste mit Bildern, Aufgaben und Informationen
 const npcs = [
     { 
-        x: 10, 
-        y: 10, 
+        x: 50, 
+        y: 50, 
         width: 50, 
         height: 50, 
         imgSrc: 'img/npc1.png', 
         task: 'Bringe mir ein Schwert!', 
-        info: 'Ich bin der Schmied des Dorfes.' 
+        info: 'Ich bin der Schmied des Dorfes.',
+        quest: 'Finde das Schwert im Nordwald.'
     },
     { 
-        x: canvas.width - 60, 
-        y: 10, 
+        x: canvas.width - 100, 
+        y: 50, 
         width: 50, 
         height: 50, 
         imgSrc: 'img/npc2.png', 
-        task: 'Finde den verlorenen Schatz!', 
-        info: 'Ich bin der Händler hier.' 
+        task: 'Sammle 10 Äpfel!', 
+        info: 'Ich bin der Händler hier.',
+        quest: 'Sammle die Äpfel im Obstgarten.'
     }
 ];
 
@@ -75,7 +79,7 @@ npcs.forEach(npc => {
 function drawNPCs() {
     npcs.forEach(npc => {
         ctx.drawImage(npc.img, npc.x, npc.y, npc.width, npc.height);
-        // Keine Texte über den NPCs anzeigen
+        // NPC-Informationen werden in der Dialogbox angezeigt
     });
 }
 
@@ -108,41 +112,46 @@ function drawMinimap() {
     minimapCtx.fillRect(0, 0, minimap.width, minimap.height);
 
     // Zeichne eine kleine Darstellung des Spielbereichs
-    minimapCtx.fillStyle = 'blue';
-    minimapCtx.fillRect(player.x / canvas.width * minimap.width, player.y / canvas.height * minimap.height, player.width / canvas.width * minimap.width, player.height / canvas.height * minimap.height);
+    minimapCtx.fillStyle = 'blueHier ist die Fortsetzung des Codes für `js/game.js` sowie eine `README.md`-Datei für Git:
+
+#### **3. JavaScript (Fortsetzung für js/game.js)**
+
+```javascript
+// Zeichne eine kleine Darstellung des Spielbereichs
+function drawMinimap() {
+    minimapCtx.clearRect(0, 0, minimap.width, minimap.height); // Minimap leeren
+    minimapCtx.fillStyle = 'lightblue';
+    minimapCtx.fillRect(0, 0, minimap.width, minimap.height);
+
+    // Zeichne den Spieler auf der Minimap
+    minimapCtx.fillStyle = 'red';
+    minimapCtx.fillRect(
+        (player.x / canvas.width) * minimap.width,
+        (player.y / canvas.height) * minimap.height,
+        player.width / canvas.width * minimap.width,
+        player.height / canvas.height * minimap.height
+    );
 }
 
-// Funktion zum Hinzufügen eines Gegenstands zum Inventar
-function addToInventory(item) {
+function updateInventory(item) {
     inventory.push(item);
-    updateInventoryDisplay();
+    inventoryList.innerHTML = inventory.map(i => `<li>${i}</li>`).join('');
 }
 
-// Funktion zur Aktualisierung der Inventaranzeige
-function updateInventoryDisplay() {
-    inventoryList.innerHTML = '';
-    inventory.forEach(item => {
-        const listItem = document.createElement('li');
-        listItem.textContent = item;
-        inventoryList.appendChild(listItem);
-    });
-}
-
-// Spiel Schleife
+// Haupt-Game-Loop
 function gameLoop() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Canvas löschen
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     player.move();
     player.draw();
     drawNPCs();
     checkInteraction();
-    drawMinimap(); // Minimap zeichnen
-
+    drawMinimap();
     requestAnimationFrame(gameLoop);
 }
 
-// Spielersteuerung
-window.addEventListener('keydown', function(event) {
-    switch(event.key) {
+// Steuerung des Spielers
+document.addEventListener('keydown', (e) => {
+    switch (e.key) {
         case 'ArrowUp':
             player.direction = 'up';
             break;
@@ -158,6 +167,6 @@ window.addEventListener('keydown', function(event) {
     }
 });
 
-window.addEventListener('keyup', function(event) {
+document.addEventListener('keyup', () => {
     player.direction = '';
 });

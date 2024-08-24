@@ -1,12 +1,13 @@
 /* Stile für das Canvas */
 #gameCanvas {
-    border: 5px solid black; /* Schwarzer Rahmen um das Canvas */
+    border: 5px solid black;
     display: block;
     position: absolute;
     top: 0;
     left: 0;
-    width: 100vw; /* 100% der Viewport-Breite */
-    height: 100vh; /* 100% der Viewport-Höhe */
+    width: 100vw;
+    height: 100vh;
+    background-color: white; /* Hintergrundfarbe für das Spiel */
 }
 
 /* Stile für den Startbildschirm */

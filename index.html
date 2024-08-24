@@ -9,10 +9,15 @@
 <body>
     <div id="start-screen">
         <h1>Bremer Community Spiel</h1>
-        <p>Klicke hier, um das Spiel zu starten</p>
+        <button onclick="startGame()">Spiel Starten</button>
     </div>
-    <canvas id="gameCanvas" style="display: none;"></canvas>
-    <div id="dialog-box" style="display: none;"></div>
+    <canvas id="gameCanvas"></canvas>
+    <div id="dialog-box"></div>
+    <div id="minimap"></div>
+    <div id="inventory">
+        <h3>Inventar</h3>
+        <ul id="inventory-list"></ul>
+    </div>
     <audio id="backgroundMusic" src="audio/background.mp3" loop></audio>
     <script src="js/game.js"></script>
 </body>
