@@ -11,40 +11,11 @@ const minimapCtx = minimap.getContext('2d');
 const inventory = [];
 const inventoryList = document.getElementById('inventory-list');
 
-function startGame() {
-    startScreen.style.display = 'none'; // Startbildschirm ausblenden
-    canvas.style.display = 'block'; // Canvas sichtbar machen
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    backgroundMusic.play(); // Hintergrundmusik starten
-    gameLoop(); // Spiel Schleife starten
-}
+let gameInterval;
+let score = 0;
+let level = 1;
 
-// Spieler Objekt
-const player = {
-    x: canvas.width / 2 - 25,
-    y: canvas.height - 60,
-    width: 50,
-    height: 50,
-    color: 'red', // Roter Kreis für den Spieler
-    speed: 5,
-    direction: '',
-    draw: function() {
-        ctx.beginPath();
-        ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-        ctx.closePath();
-    },
-    move: function() {
-        if (this.direction === 'up') this.y = Math.max(0, this.y - this.speed);
-        if (this.direction === 'down') this.y = Math.min(canvas.height - this.height, this.y + this.speed);
-        if (this.direction === 'left') this.x = Math.max(0, this.x - this.speed);
-        if (this.direction === 'right') this.x = Math.min(canvas.width - this.width, this.x + this.speed);
-    }
-};
-
-// NPCs Liste mit Bildern, Aufgaben und Informationen
+// NPCs Liste
 const npcs = [
     { 
         x: 50, 
@@ -68,6 +39,30 @@ const npcs = [
     }
 ];
 
+// Player Objekt
+const player = {
+    x: canvas.width / 2 - 25,
+    y: canvas.height / 2 - 25,
+    width: 50,
+    height: 50,
+    color: 'red', // Roter Kreis für den Spieler
+    speed: 5,
+    direction: '',
+    draw: function() {
+        ctx.beginPath();
+        ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.closePath();
+    },
+    move: function() {
+        if (this.direction === 'up') this.y = Math.max(0, this.y - this.speed);
+        if (this.direction === 'down') this.y = Math.min(canvas.height - this.height, this.y + this.speed);
+        if (this.direction === 'left') this.x = Math.max(0, this.x - this.speed);
+        if (this.direction === 'right') this.x = Math.min(canvas.width - this.width, this.x + this.speed);
+    }
+};
+
 // Laden der NPC-Bilder
 npcs.forEach(npc => {
     const img = new Image();
@@ -79,7 +74,6 @@ npcs.forEach(npc => {
 function drawNPCs() {
     npcs.forEach(npc => {
         ctx.drawImage(npc.img, npc.x, npc.y, npc.width, npc.height);
-        // NPC-Informationen werden in der Dialogbox angezeigt
     });
 }
 
@@ -102,7 +96,7 @@ function checkInteraction() {
 
 function showDialog(npc) {
     dialogBox.style.display = 'block';
-    dialogBox.innerHTML = `<h2>${npc.task}</h2><p>${npc.info}</p>`;
+    dialogBox.innerHTML = `<h2>${npc.task}</h2><p>${npc.info}</p><p><strong>Quest:</strong> ${npc.quest}</p>`;
 }
 
 // Funktion zum Zeichnen der Minimap
@@ -134,7 +128,15 @@ function gameLoop() {
     drawNPCs();
     checkInteraction();
     drawMinimap();
-    requestAnimationFrame(gameLoop);
+}
+
+function startGame() {
+    startScreen.style.display = 'none'; // Startbildschirm ausblenden
+    canvas.style.display = 'block'; // Canvas sichtbar machen
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    backgroundMusic.play(); // Hintergrundmusik starten
+    gameInterval = setInterval(gameLoop, 1000 / 30); // Spiel Schleife starten
 }
 
 // Steuerung des Spielers
