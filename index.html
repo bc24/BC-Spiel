@@ -3,18 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vollbild-Rätselspiel</title>
+    <title>Bremer Community Spiel</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="game-container">
+    <div id="name-entry-screen">
+        <h1>Bremer Community Spiel</h1>
+        <p>Entwickelt von Frank Panzer</p>
+        <input type="text" id="player-name" placeholder="Deinen Namen eingeben">
+        <button id="submit-name-btn">Bestätigen</button>
+    </div>
+
+    <div id="start-screen" style="display:none;">
+        <h1>Willkommen, <span id="display-name"></span>!</h1>
+        <button id="start-btn">Spiel Starten</button>
+    </div>
+
+    <div id="game-container" style="display:none;">
         <div id="level-container">
             <h1 id="level-title">Level 1</h1>
             <div id="timer">Zeit: <span id="time">360</span> Sekunden</div>
             <div id="puzzle"></div>
             <button id="next-level-btn" style="display:none;">Nächstes Level</button>
         </div>
+
+        <div id="chat-container">
+            <h2>Cookie Chat</h2>
+            <textarea id="chat-box" readonly></textarea>
+            <input type="text" id="chat-input" placeholder="Nachricht eingeben" />
+            <button id="send-btn">Senden</button>
+        </div>
+
+        <div id="highscore-container">
+            <h2>Highscore</h2>
+            <ul id="highscore-list"></ul>
+        </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
