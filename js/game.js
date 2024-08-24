@@ -4,6 +4,7 @@ const ctx = canvas.getContext('2d');
 
 // Startbildschirm und Spiel starten
 const startScreen = document.getElementById('start-screen');
+const dialogBox = document.getElementById('dialog-box');
 startScreen.addEventListener('click', startGame);
 
 function startGame() {
@@ -22,7 +23,17 @@ const player = {
     height: 50,
     color: 'blue',
     speed: 5,
-    direction: ''
+    direction: '',
+    draw: function() {
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+    },
+    move: function() {
+        if (this.direction === 'up') this.y = Math.max(10, this.y - this.speed);
+        if (this.direction === 'down') this.y = Math.min(canvas.height - this.height - 10, this.y + this.speed);
+        if (this.direction === 'left') this.x = Math.max(10, this.x - this.speed);
+        if (this.direction === 'right') this.x = Math.min(canvas.width - this.width - 10, this.x + this.speed);
+    }
 };
 
 // NPCs Liste mit Bildern, Aufgaben und Informationen
@@ -54,57 +65,46 @@ npcs.forEach(npc => {
     npc.img = img;
 });
 
-// Zeichnen des Spielers
-function drawPlayer() {
-    ctx.fillStyle = player.color;
-    ctx.fillRect(player.x, player.y, player.width, player.height);
-}
-
 // Zeichnen der NPCs mit Aufgaben und Informationen
 function drawNPCs() {
     npcs.forEach(npc => {
-        // NPC-Bild zeichnen
         ctx.drawImage(npc.img, npc.x, npc.y, npc.width, npc.height);
 
         // Text über dem NPC anzeigen (Aufgabe und Info)
-        ctx.fillStyle = 'white';
+        ctx.fillStyle = 'black';
         ctx.font = '16px Arial';
-
-        // Aufgabe anzeigen
         ctx.fillText(npc.task, npc.x, npc.y - 10);
-
-        // Information anzeigen (über der Aufgabe)
         ctx.fillText(npc.info, npc.x, npc.y - 30);
-    });
-}
-
-// Funktion zum Überprüfen von Kollisionen zwischen Spieler und NPCs
-function checkInteraction() {
-    npcs.forEach(npc => {
-        if (player.x < npc.x + npc.width &&
-            player.x + player.width > npc.x &&
-            player.y < npc.y + npc.height &&
-            player.y + player.height > npc.y) {
-            alert("Aufgabe erhalten: " + npc.task);
-        }
     });
 }
 
 // Spiel Schleife
 function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Canvas löschen
-
-    drawPlayer();
+    player.move();
+    player.draw();
     drawNPCs();
     checkInteraction(); // Überprüfe, ob der Spieler mit einem NPC interagiert
 
-    // Spieler Bewegung
-    if (player.direction === 'up') player.y -= player.speed;
-    if (player.direction === 'down') player.y += player.speed;
-    if (player.direction === 'left') player.x -= player.speed;
-    if (player.direction === 'right') player.x += player.speed;
-
     requestAnimationFrame(gameLoop);
+}
+
+// Funktion zum Überprüfen von Kollisionen zwischen Spieler und NPCs
+function checkInteraction() {
+    let interacting = false;
+    npcs.forEach(npc => {
+        if (player.x < npc.x + npc.width &&
+            player.x + player.width > npc.x &&
+            player.y < npc.y + npc.height &&
+            player.y + player.height > npc.y) {
+            dialogBox.style.display = 'block';
+            dialogBox.innerText = npc.task;
+            interacting = true;
+        }
+    });
+    if (!interacting) {
+        dialogBox.style.display = 'none';
+    }
 }
 
 // Spielersteuerung
