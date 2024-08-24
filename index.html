@@ -4,25 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bremer Community Spiel</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #name-entry-screen, #game-container { display: none; }
+        #game-container { display: flex; flex-direction: column; align-items: center; }
+        .hidden { display: none; }
+        #highscore-list { margin-top: 20px; }
+    </style>
 </head>
 <body>
     <div id="name-entry-screen">
         <h1>Bremer Community Spiel</h1>
         <p>Entwickelt von Frank Panzer</p>
-        <input type="text" id="player-name" placeholder="Deinen Namen eingeben">
-        <button id="submit-name-btn">Bestätigen</button>
-        <h2>Highscore</h2>
-        <ul id="highscore-list"></ul>
+        <input type="text" id="player-name" placeholder="Gib deinen Namen ein">
+        <button id="submit-name-btn">Starten</button>
     </div>
 
-    <div id="game-container" style="display:none;">
-        <div id="level-container">
-            <h1 id="level-title">Level 1</h1>
-            <div id="timer">Zeit: <span id="time">360</span> Sekunden</div>
-            <div id="puzzle"></div>
-            <button id="next-level-btn" style="display:none;">Nächstes Level</button>
-        </div>
+    <div id="game-container">
+        <h2 id="level-title"></h2>
+        <div id="puzzle"></div>
+        <div id="timer">360</div>
+        <button id="next-level-btn" class="hidden">Nächstes Level</button>
+        <div id="highscore-list"></div>
     </div>
 
     <script src="script.js"></script>
