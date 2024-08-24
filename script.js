@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const nameEntryScreen = document.getElementById('name-entry-screen');
     const gameContainer = document.getElementById('game-container');
-    const displayName = document.getElementById('display-name');
     const playerNameInput = document.getElementById('player-name');
     const submitNameBtn = document.getElementById('submit-name-btn');
     const levelTitle = document.getElementById('level-title');
@@ -28,6 +27,16 @@ document.addEventListener('DOMContentLoaded', () => {
             startLevel(currentLevel);
         } else {
             alert('Bitte gib deinen Namen ein!');
+        }
+    });
+
+    nextLevelBtn.addEventListener('click', () => {
+        currentLevel++;
+        if (currentLevel <= 100) {
+            startLevel(currentLevel);
+        } else {
+            alert('Herzlichen Glückwunsch! Du hast alle Level abgeschlossen.');
+            endGame();
         }
     });
 
@@ -58,10 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Beispielrätsel für jedes Level
         switch(level) {
             case 1:
-                return '<p>R&auml;tsel 1: Was ist 5 + 3?</p><input type="text" id="answer" /><button onclick="checkAnswer(1)">&Uuml;berpr&uuml;fen</button>';
+                return '<p>Rätsel 1: Was ist 5 + 3?</p><input type="text" id="answer" /><button onclick="checkAnswer(1)">Überprüfen</button>';
             case 2:
-                return '<p>R&auml;tsel 2: Wie lautet die Hauptstadt von Deutschland?</p><input type="text" id="answer" /><button onclick="checkAnswer(2)">&Uuml;berpr&uuml;fen</button>';
-            // Weitere R&auml;tsel f&uuml;r alle 100 Levels
+                return '<p>Rätsel 2: Wie lautet die Hauptstadt von Deutschland?</p><input type="text" id="answer" /><button onclick="checkAnswer(2)">Überprüfen</button>';
+            // Weitere Rätsel für alle 100 Levels
             default:
                 return '<p>Level nicht gefunden.</p>';
         }
@@ -115,5 +124,12 @@ document.addEventListener('DOMContentLoaded', () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(highScores)
         });
+    }
+
+    function endGame() {
+        alert('Das Spiel ist vorbei! Deine Punktzahl wurde gespeichert.');
+        gameContainer.style.display = 'none';
+        nameEntryScreen.style.display = 'flex';
+        updateHighscores();
     }
 });
